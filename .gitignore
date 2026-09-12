@@ -1,0 +1,21 @@
+# Quarto build outputs and internal files
+/.quarto/
+/_site/
+*_files/
+*_cache/
+**/*.quarto_ipynb
+
+# Python caches
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# R environment & session files
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+
+# OS generated files
+.DS_Store
+Thumbs.db

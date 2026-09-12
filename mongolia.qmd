@@ -1,0 +1,66 @@
+---
+title: "Mongolia"
+format:
+  html:
+    code-fold: true
+---
+
+This page focuses on Mongolia's climate pattern across the year.
+
+```{python}
+import pandas as pd
+from datetime import datetime
+from meteostat import config, hourly
+
+config.block_large_requests = False
+
+start = datetime(2020, 1, 1)
+end = datetime(2024, 1, 1)
+
+station = "44292"
+df = hourly(station, start, end).fetch().reset_index().rename(columns={"time": "date"})
+
+df = df[["date", "temp", "prcp"]].dropna().copy()
+df["month_name"] = df["date"].dt.strftime("%b")
+df["month_num"] = df["date"].dt.month
+
+monthly = (
+    df.groupby(["month_num", "month_name"], as_index=False)
+    .agg(
+        avg_temp_c=("temp", "mean"),
+        total_rainfall_mm=("prcp", "sum")
+    )
+    .sort_values("month_num")
+)
+
+months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+monthly["month_name"] = pd.Categorical(monthly["month_name"], categories=months, ordered=True)
+
+monthly
+```
+
+## Key pattern
+
+Mongolia has a much colder winter and a sharper seasonal temperature swing than Sarasota. Rainfall is relatively low overall, but the climate still shows a clear warm-season pulse.
+
+```{python}
+import plotly.express as px
+
+fig = px.line(
+    monthly,
+    x="month_name",
+    y="avg_temp_c",
+    markers=True,
+    title="Average Monthly Temperature in Mongolia",
+    labels={"month_name": "Month", "avg_temp_c": "Temperature (°C)"}
+)
+
+fig.update_layout(
+    template="plotly_white",
+    width=900,
+    height=420,
+    margin=dict(l=20, r=20, t=50, b=20),
+    title_x=0.5
+)
+fig.show()
+```

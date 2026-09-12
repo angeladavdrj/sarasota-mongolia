@@ -1,0 +1,119 @@
+---
+title: "UB Weather Dashboard"
+format:
+  html:
+    code-fold: true
+---
+
+This page tracks how temperature and rainfall pulse across the year for Sarasota and Ulaanbaatar.
+
+```{python}
+import pandas as pd
+import plotly.express as px
+from datetime import datetime
+from meteostat import config, hourly
+
+config.block_large_requests = False
+
+start = datetime(2023, 1, 1)
+end = datetime(2023, 12, 31, 23, 59)
+
+stations = {
+    "Sarasota": "KSRQ0",
+    "Ulaanbaatar": "44292",
+}
+
+records = []
+
+for city, station in stations.items():
+    df = hourly(station, start, end).fetch()
+    if df is None or df.empty:
+        continue
+
+    df = df.reset_index().rename(columns={"time": "date"})
+    df = df[["date", "temp", "prcp"]].dropna()
+    df["month_num"] = df["date"].dt.month
+    df["month_name"] = df["date"].dt.strftime("%b")
+
+    monthly = (
+        df.groupby(["month_num", "month_name"], as_index=False)
+        .agg(
+            temp_c=("temp", "mean"),
+            rainfall_mm=("prcp", "sum")
+        )
+    )
+    monthly["city"] = city
+    records.append(monthly)
+
+monthly_df = pd.concat(records, ignore_index=True)
+months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+monthly_df["month_name"] = pd.Categorical(monthly_df["month_name"], categories=months, ordered=True)
+monthly_df = monthly_df.sort_values(["month_num", "city"]).reset_index(drop=True)
+```
+
+## Monthly Temperature Comparison
+
+```{python}
+fig_temp = px.line(
+    monthly_df,
+    x="month_name",
+    y="temp_c",
+    color="city",
+    markers=True,
+    category_orders={"city": ["Sarasota", "Ulaanbaatar"], "month_name": months},
+    labels={"city": "City", "temp_c": "Temperature (°C)", "month_name": "Month"},
+    title="Average Monthly Temperature Across 2023"
+)
+
+fig_temp.update_traces(line=dict(width=3), marker=dict(size=8))
+fig_temp.layout.yaxis.zeroline = True
+fig_temp.layout.yaxis.zerolinewidth = 2
+fig_temp.layout.yaxis.zerolinecolor = "gray"
+fig_temp.update_layout(
+    template="plotly_white",
+    width=750,
+    height=450,
+    colorway=["#1C6E8C", "#D96C06"]
+)
+fig_temp.show()
+```
+
+Notice how Ulaanbaatar dips far below 0°C (freezing) in winter and rises in summer, while Sarasota stays comfortably warm all year.
+
+## Monthly Rainfall Comparison
+
+```{python}
+fig_rain = px.line(
+    monthly_df,
+    x="month_name",
+    y="rainfall_mm",
+    color="city",
+    markers=True,
+    category_orders={"city": ["Sarasota", "Ulaanbaatar"], "month_name": months},
+    labels={"city": "City", "rainfall_mm": "Rainfall (mm)", "month_name": "Month"},
+    title="Total Monthly Rainfall Across 2023"
+)
+
+fig_rain.update_traces(line=dict(width=3), marker=dict(size=8))
+fig_rain.update_layout(
+    template="plotly_white",
+    width=750,
+    height=450,
+    colorway=["#1C6E8C", "#D96C06"]
+)
+fig_rain.show()
+```
+
+Watch the rainfall "pulse" in the summer months: Ulaanbaatar spikes in July, while Sarasota experiences heavy rainfall in August.
+
+## Monthly summary
+
+```{python}
+summary = monthly_df.groupby("city").agg(
+    avg_temp_c=("temp_c", "mean"),
+    total_rainfall_mm=("rainfall_mm", "sum")
+).round(2)
+summary
+```
+
+

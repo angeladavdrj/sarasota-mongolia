@@ -1,0 +1,18 @@
+project:
+  type: website
+
+website:
+  title: "Weather Dashboard"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: sarasota.qmd
+        text: Sarasota
+      - href: mongolia.qmd
+        text: Mongolia
+
+format:
+  html:
+    theme: cosmo
+    toc: true
