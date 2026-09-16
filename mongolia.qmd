@@ -7,6 +7,33 @@ format:
 
 This page focuses on Mongolia's climate pattern across the year.
 
+```{=html}
+<div id="mongoliaCarousel" class="carousel slide" data-bs-ride="carousel" style="max-width: 700px; margin: 20px auto;">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Mongolian_yurt_in_steppe.jpg/960px-Mongolian_yurt_in_steppe.jpg" class="d-block w-100" style="height: 380px; object-fit: cover; border-radius: 8px;" alt="Mongolian yurt in steppe">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>Mongolian Steppe</h5>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Landscape_of_Mongolia_01.jpg/960px-Landscape_of_Mongolia_01.jpg" class="d-block w-100" style="height: 380px; object-fit: cover; border-radius: 8px;" alt="Landscape of Mongolia">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>Mongolian Countryside</h5>
+      </div>
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#mongoliaCarousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#mongoliaCarousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+```
+
 ```{python}
 import pandas as pd
 from datetime import datetime
@@ -21,6 +48,7 @@ station = "44292"
 df = hourly(station, start, end).fetch().reset_index().rename(columns={"time": "date"})
 
 df = df[["date", "temp", "prcp"]].dropna().copy()
+df["temp_f"] = (df["temp"] * 9 / 5) + 32
 df["month_name"] = df["date"].dt.strftime("%b")
 df["month_num"] = df["date"].dt.month
 
@@ -46,21 +74,27 @@ Mongolia has a much colder winter and a sharper seasonal temperature swing than 
 ```{python}
 import plotly.express as px
 
-fig = px.line(
-    monthly,
-    x="month_name",
-    y="avg_temp_c",
-    markers=True,
-    title="Average Monthly Temperature in Mongolia",
-    labels={"month_name": "Month", "avg_temp_c": "Temperature (°C)"}
+# Use the daily temperature records instead of the monthly aggregate.
+everyday = df[["date", "temp_f"]].copy()
+
+a = px.scatter(
+    everyday,
+    x="date",
+    y="temp_f",
+    color="temp_f",
+    title="Daily Temperature in Mongolia",
+    labels={"date": "Date", "temp_f": "Temperature (°F)"},
+    opacity=0.7,
+    trendline="lowess",
+    color_continuous_scale=[[0, "#1e3a8a"], [0.5, "#f4d35e"], [1, "#d9480f"]]
 )
 
-fig.update_layout(
+a.update_layout(
     template="plotly_white",
     width=900,
     height=420,
     margin=dict(l=20, r=20, t=50, b=20),
     title_x=0.5
 )
-fig.show()
+a.show()
 ```

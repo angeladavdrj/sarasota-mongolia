@@ -11,8 +11,18 @@ website:
         text: Sarasota
       - href: mongolia.qmd
         text: Mongolia
+    right:
+      - icon: github
+        href: https://github.com/angeladvdrj/milestone-4
+        aria-label: GitHub
+  page-footer:
+    center: "Weather Dashboard | Created for Bayesian Data Science"
 
 format:
   html:
-    theme: cosmo
+    theme: flatly
     toc: true
+
+execute:
+  echo: false
+  warning: false
