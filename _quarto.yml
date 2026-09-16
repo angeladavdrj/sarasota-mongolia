@@ -22,6 +22,7 @@ format:
   html:
     theme: flatly
     toc: true
+    include-after-body: stickers.html
 
 execute:
   echo: false

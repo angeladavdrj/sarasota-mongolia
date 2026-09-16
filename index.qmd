@@ -5,9 +5,15 @@ format:
     code-fold: true
 ---
 
-This page tracks how temperature and rainfall pulse across the year for Sarasota and Ulaanbaatar.
+::: {.lead}
+How does the world's coldest capital compare to sunny Florida? Explore 2023 temperature and rainfall trends between **Sarasota, FL** and **Ulaanbaatar, Mongolia**.
+:::
 
-Across the year, Mongolia shows the strongest seasonal contrast. In summer, the temperatures are surprisingly close to Sarasota, but in winter the climate swings to extreme cold, with far lower temperatures than Florida. This makes Mongolia a much more variable climate overall, even though the warm months can look fairly similar between the two places.
+::: {.callout-note appearance="simple" icon=false}
+### 🌡️ At a Glance
+- **Sarasota:** Consistently warm year-round with frequent tropical rainfall.
+- **Ulaanbaatar:** Dramatic seasonal swings—warm summers followed by sub-zero winter extremes below -30°F.
+:::
 
 ```{python}
 import pandas as pd

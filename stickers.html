@@ -1,0 +1,51 @@
+<style>
+.click-sticker {
+  position: fixed;
+  pointer-events: none;
+  user-select: none;
+  animation: popFloat 1.8s ease-out forwards;
+  z-index: 99999;
+}
+@keyframes popFloat {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.2) rotate(0deg);
+  }
+  20% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.25) rotate(-8deg);
+  }
+  75% {
+    opacity: 0.9;
+    transform: translate(-50%, -70%) scale(1) rotate(6deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -110%) scale(0.7) rotate(15deg);
+  }
+}
+</style>
+<script>
+document.addEventListener('click', function(e) {
+  const stickers = ['☀️', '❄️', '🌧️', '⛅', '🌈', '⚡', '🌡️', '✨', '🌴'];
+  const count = 25; // number of stickers scattered across the screen
+
+  for (let i = 0; i < count; i++) {
+    const sticker = document.createElement('span');
+    sticker.className = 'click-sticker';
+    sticker.textContent = stickers[Math.floor(Math.random() * stickers.length)];
+
+    // Scatter randomly across the visible window
+    sticker.style.left = (Math.random() * 90 + 5) + 'vw';
+    sticker.style.top = (Math.random() * 90 + 5) + 'vh';
+    sticker.style.fontSize = (Math.random() * 18 + 24) + 'px';
+    sticker.style.animationDelay = (Math.random() * 0.25) + 's';
+
+    document.body.appendChild(sticker);
+
+    setTimeout(function() {
+      sticker.remove();
+    }, 2200);
+  }
+});
+</script>
