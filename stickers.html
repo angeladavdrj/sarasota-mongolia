@@ -26,7 +26,7 @@
 }
 </style>
 <script>
-document.addEventListener('click', function(e) {
+function showStickers() {
   const stickers = ['☀️', '❄️', '🌧️', '⛅', '🌈', '⚡', '🌡️', '✨', '🌴'];
   const count = 25; // number of stickers scattered across the screen
 
@@ -47,5 +47,17 @@ document.addEventListener('click', function(e) {
       sticker.remove();
     }, 2200);
   }
+}
+
+document.addEventListener('click', function(e) {
+  const pageLink = e.target.closest('a.nav-link');
+  if (pageLink && pageLink.getAttribute('href')) {
+    sessionStorage.setItem('showPageStickers', 'true');
+  }
 });
+
+if (sessionStorage.getItem('showPageStickers') === 'true') {
+  sessionStorage.removeItem('showPageStickers');
+  showStickers();
+}
 </script>

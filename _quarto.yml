@@ -6,11 +6,11 @@ website:
   navbar:
     left:
       - href: index.qmd
-        text: Home
-      - href: sarasota.qmd
-        text: Sarasota
-      - href: mongolia.qmd
-        text: Mongolia
+        text: Dashboard
+      - href: exploration.qmd
+        text: Exploration
+      - href: story.qmd
+        text: Story
     right:
       - icon: github
         href: https://github.com/angeladvdrj/milestone-4

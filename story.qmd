@@ -1,0 +1,154 @@
+---
+title: "Sarasota's 'Freezing' Winter"
+format:
+  html:
+    code-fold: true
+---
+
+## Is Sarasota's winter really freezing?
+
+Sarasota residents sometimes describe winter days as freezing. But “cold” depends on what your body is used to. For someone from Mongolia, a Sarasota winter day can look much more like a mild or even summery day at home.
+
+Choose any Sarasota day below. Winter dates are grouped at the top of the menu so you can focus on the days Sarasota residents may call “freezing.” The comparison finds the day in Ulaanbaatar with the closest daily average air temperature.
+
+```{python}
+import json
+import pandas as pd
+from datetime import datetime
+from meteostat import config, daily
+from IPython.display import HTML, display
+
+config.block_large_requests = False
+
+start = datetime(2023, 1, 1)
+end = datetime(2023, 12, 31, 23, 59)
+
+stations = {
+    "Sarasota": "KSRQ0",
+    "Ulaanbaatar": "44292",
+}
+
+records = []
+for city, station in stations.items():
+    weather = daily(station, start, end).fetch()
+    if weather is None or weather.empty:
+        continue
+
+    weather = weather.reset_index().rename(columns={"time": "date"})
+    weather = weather[["date", "temp"]].dropna().copy()
+    weather["city"] = city
+    weather["temp_f"] = (weather["temp"] * 9 / 5) + 32
+    records.append(weather)
+
+weather = pd.concat(records, ignore_index=True)
+weather["day"] = weather["date"].dt.date.astype(str)
+daily_data = (
+    weather.groupby(["city", "day"], as_index=False)["temp_f"]
+    .mean()
+    .rename(columns={"temp_f": "average_temp_f"})
+)
+
+sarasota_days = daily_data[daily_data["city"] == "Sarasota"].copy()
+mongolia_days = daily_data[daily_data["city"] == "Ulaanbaatar"].copy()
+
+matches = []
+for _, sarasota_day in sarasota_days.iterrows():
+    mongolia_day = mongolia_days.iloc[
+        (mongolia_days["average_temp_f"] - sarasota_day["average_temp_f"]).abs().argmin()
+    ]
+    matches.append({
+        "sarasota_day": sarasota_day["day"],
+        "sarasota_temp": round(sarasota_day["average_temp_f"], 1),
+        "mongolia_day": mongolia_day["day"],
+        "mongolia_temp": round(mongolia_day["average_temp_f"], 1),
+    })
+
+matches_json = json.dumps(matches)
+default_index = next(
+  index for index, match in enumerate(matches)
+  if match["sarasota_day"].endswith("-01-01")
+)
+default_match = matches[default_index]
+
+display(HTML(f"""
+<style>
+.temperature-match {{ max-width: 760px; margin: 1.5rem auto; padding: 1.25rem; border: 1px solid #d8dee4; border-radius: 8px; background: #f8fafb; }}
+.temperature-match label {{ font-weight: 600; display: block; margin-bottom: .4rem; }}
+.temperature-match input {{ width: 100%; margin: .5rem 0 1rem; accent-color: #1c6e8c; }}
+.exact-date-label {{ margin-top: .75rem; }}
+.exact-date {{ max-width: 190px; padding: .45rem; font-size: 1rem; accent-color: initial; }}
+.date-display {{ font-size: 1.25rem; font-weight: 700; color: #1c6e8c; }}
+.winter-badge {{ display: inline-block; margin-left: .5rem; padding: .2rem .5rem; border-radius: 999px; background: #fff1c7; color: #765b00; font-size: .8rem; font-weight: 600; }}
+.match-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }}
+.match-card {{ background: white; border: 1px solid #d8dee4; padding: 1rem; }}
+.match-card h3 {{ margin-top: 0; font-size: 1.05rem; }}
+.temperature {{ font-size: 2rem; font-weight: 700; color: #1c6e8c; }}
+.bar {{ height: 16px; background: #1c6e8c; margin-top: .5rem; }}
+.match-result {{ margin-top: 1rem; font-size: 1.05rem; }}
+@media (max-width: 600px) {{ .match-grid {{ grid-template-columns: 1fr; }} }}
+</style>
+
+<div class="temperature-match">
+  <label for="sarasota-date">Explore the year: move the slider to choose a Sarasota day</label>
+  <div class="date-display"><span id="selected-date">{default_match['sarasota_day']}</span><span id="winter-badge" class="winter-badge">Winter date</span></div>
+  <input id="sarasota-date" type="range" min="0" max="{len(matches) - 1}" value="{default_index}" step="1">
+  <label class="exact-date-label" for="exact-date">Or enter an exact date</label>
+  <input class="exact-date" id="exact-date" type="date" value="{default_match['sarasota_day']}" min="{matches[0]['sarasota_day']}" max="{matches[-1]['sarasota_day']}">
+  <div class="match-grid">
+    <div class="match-card">
+      <h3>Sarasota · <span id="sarasota-day">{default_match['sarasota_day']}</span></h3>
+      <div class="temperature"><span id="sarasota-temp">{default_match['sarasota_temp']}</span> °F</div>
+      <div class="bar" id="sarasota-bar"></div>
+      <small>Daily average air temperature</small>
+    </div>
+    <div class="match-card">
+      <h3>Closest Ulaanbaatar day · <span id="mongolia-day">{default_match['mongolia_day']}</span></h3>
+      <div class="temperature"><span id="mongolia-temp">{default_match['mongolia_temp']}</span> °F</div>
+      <div class="bar" id="mongolia-bar"></div>
+      <small>Daily average air temperature</small>
+    </div>
+  </div>
+  <p class="match-result" id="match-result"></p>
+</div>
+
+<script>
+const temperatureMatches = {matches_json};
+const dateInput = document.getElementById('sarasota-date');
+const exactDateInput = document.getElementById('exact-date');
+const result = document.getElementById('match-result');
+
+function updateMatch() {{
+  const selected = temperatureMatches[Number(dateInput.value)];
+  const isWinter = ['01', '02', '12'].includes(selected.sarasota_day.slice(5, 7));
+  document.getElementById('selected-date').textContent = selected.sarasota_day;
+  exactDateInput.value = selected.sarasota_day;
+  document.getElementById('winter-badge').style.display = isWinter ? 'inline-block' : 'none';
+  document.getElementById('sarasota-day').textContent = selected.sarasota_day;
+  document.getElementById('sarasota-temp').textContent = selected.sarasota_temp;
+  document.getElementById('mongolia-day').textContent = selected.mongolia_day;
+  document.getElementById('mongolia-temp').textContent = selected.mongolia_temp;
+  document.getElementById('sarasota-bar').style.width = Math.max(10, Math.min(100, selected.sarasota_temp + 20)) + '%';
+  document.getElementById('mongolia-bar').style.width = Math.max(10, Math.min(100, selected.mongolia_temp + 20)) + '%';
+  result.textContent = `A Sarasota day averaging ${{selected.sarasota_temp}} °F is closest to ${{selected.mongolia_day}} in Ulaanbaatar, averaging ${{selected.mongolia_temp}} °F.`;
+}}
+
+dateInput.addEventListener('input', updateMatch);
+exactDateInput.addEventListener('change', () => {{
+  const selectedIndex = temperatureMatches.findIndex(
+    match => match.sarasota_day === exactDateInput.value
+  );
+  if (selectedIndex >= 0) {{
+    dateInput.value = selectedIndex;
+    updateMatch();
+  }} else {{
+    result.textContent = 'That date is not available in the 2023 data. Choose a date between January 1 and December 31.';
+  }}
+}});
+updateMatch();
+</script>
+"""))
+```
+
+### The takeaway
+
+The same temperature that feels painfully cold to a Sarasota resident can be ordinary warm-season weather in Mongolia. A Sarasota winter day can feel like a break from the cold to someone who grew up in Ulaanbaatar.

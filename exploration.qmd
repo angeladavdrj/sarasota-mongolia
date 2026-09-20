@@ -1,0 +1,117 @@
+---
+title: "Exploration"
+format:
+  html:
+    code-fold: true
+---
+
+## Explore the weather data
+
+Choose a city and measure from the menu inside the chart. The date-range slider lets you focus on a particular part of 2023. The readings are hourly observations, so zooming in reveals changes across individual hours rather than daily averages.
+
+```{python}
+import pandas as pd
+import plotly.graph_objects as go
+from datetime import datetime
+from meteostat import config, hourly
+
+config.block_large_requests = False
+
+start = datetime(2023, 1, 1)
+end = datetime(2023, 12, 31, 23, 59)
+
+stations = {
+    "Sarasota": "KSRQ0",
+    "Ulaanbaatar": "44292",
+}
+
+records = []
+
+for city, station in stations.items():
+    weather = hourly(station, start, end).fetch()
+    if weather is None or weather.empty:
+        continue
+
+    weather = weather.reset_index().rename(columns={"time": "date"})
+    weather = weather[["date", "temp", "prcp"]].dropna().copy()
+    weather["city"] = city
+    weather["temp_f"] = (weather["temp"] * 9 / 5) + 32
+    records.append(weather)
+
+weather_data = pd.concat(records, ignore_index=True)
+
+fig = go.Figure()
+selections = [
+    ("Sarasota", "Temperature", "temp_f", "Temperature (°F)", "#1C6E8C"),
+    ("Sarasota", "Rainfall", "prcp", "Rainfall (mm)", "#D96C06"),
+    ("Ulaanbaatar", "Temperature", "temp_f", "Temperature (°F)", "#1C6E8C"),
+    ("Ulaanbaatar", "Rainfall", "prcp", "Rainfall (mm)", "#D96C06"),
+]
+
+for city, measure, column, y_title, color in selections:
+    city_data = weather_data[weather_data["city"] == city]
+    fig.add_trace(
+        go.Scatter(
+            x=city_data["date"],
+            y=city_data[column],
+            mode="lines",
+            line={"color": color, "width": 1},
+            name=f"{city} {measure}",
+            visible=(city == "Sarasota" and measure == "Temperature"),
+            hovertemplate="%{x|%b %d, %H:%M}<br>%{y:.1f}<extra></extra>",
+        )
+    )
+
+buttons = []
+for index, (city, measure, column, y_title, color) in enumerate(selections):
+    visible = [False] * len(selections)
+    visible[index] = True
+    buttons.append(
+        {
+            "label": f"{city}: {measure}",
+            "method": "update",
+            "args": [
+                {"visible": visible},
+                {
+                    "title": f"{city} hourly {measure.lower()} readings in 2023",
+                    "yaxis": {"title": y_title},
+                },
+            ],
+        }
+    )
+
+fig.update_layout(
+    template="plotly_white",
+    title="Sarasota hourly temperature readings in 2023",
+    width=950,
+    height=560,
+    hovermode="x unified",
+    xaxis={
+        "title": "Date and time",
+        "rangeslider": {"visible": True},
+        "rangeselector": {
+            "buttons": [
+                {"count": 1, "label": "1 month", "step": "month", "stepmode": "backward"},
+                {"count": 3, "label": "3 months", "step": "month", "stepmode": "backward"},
+                {"step": "all", "label": "All year"},
+            ]
+        },
+    },
+    yaxis={"title": "Temperature (°F)"},
+    updatemenus=[
+        {
+            "buttons": buttons,
+            "direction": "down",
+            "showactive": True,
+            "x": 0,
+            "xanchor": "left",
+            "y": 1.16,
+            "yanchor": "top",
+        }
+    ],
+    margin={"t": 120, "r": 30, "b": 80, "l": 70},
+)
+fig.show()
+```
+
+Use the menu to compare the two cities and switch between temperature and rainfall. Try narrowing the slider to winter or summer to see when the two places differ most.

@@ -6,12 +6,12 @@ format:
 ---
 
 ::: {.lead}
-How does the world's coldest capital compare to sunny Florida? Explore 2023 temperature and rainfall trends between **Sarasota, FL** and **Ulaanbaatar, Mongolia**.
+How does the world's coldest national capital compare to sunny Florida? Explore 2023 temperature and rainfall patterns between **Sarasota, FL** and **Ulaanbaatar, Mongolia**.
 :::
 
 ::: {.callout-note appearance="simple" icon=false}
 ### 🌡️ At a Glance
-- **Sarasota:** Consistently warm year-round with frequent tropical rainfall.
+- **Sarasota:** Warm year-round, with more rainfall than Ulaanbaatar in this 2023 dataset.
 - **Ulaanbaatar:** Dramatic seasonal swings—warm summers followed by sub-zero winter extremes below -30°F.
 :::
 
@@ -49,7 +49,7 @@ daily_df = pd.concat(records, ignore_index=True)
 daily_df = daily_df.sort_values(["city", "date"]).reset_index(drop=True)
 ```
 
-## Daily Temperature Comparison
+## Hourly Temperature Comparison
 
 ```{python}
 fig_temp = px.scatter(
@@ -59,10 +59,9 @@ fig_temp = px.scatter(
     color="temp_f",
     symbol="city",
     opacity=0.7,
-    trendline="lowess",
     color_continuous_scale=[[0, "#1e3a8a"], [0.5, "#f4d35e"], [1, "#d9480f"]],
     labels={"city": "City", "temp_f": "Temperature (°F)", "date": "Date"},
-    title="Daily Temperature Across 2023"
+    title="Hourly Temperature Readings Across 2023"
 )
 
 fig_temp.update_layout(
@@ -76,7 +75,7 @@ fig_temp.show()
 
 Notice how Ulaanbaatar drops far below 32°F in winter and rises to warm summer highs, while Sarasota stays relatively mild all year.
 
-## Daily Rainfall Comparison
+## Hourly Rainfall Comparison
 
 ```{python}
 fig_rain = px.scatter(
@@ -85,10 +84,9 @@ fig_rain = px.scatter(
     y="rainfall_mm",
     color="city",
     opacity=0.5,
-    trendline="lowess",
     category_orders={"city": ["Sarasota", "Ulaanbaatar"]},
     labels={"city": "City", "rainfall_mm": "Rainfall (mm)", "date": "Date"},
-    title="Daily Rainfall Across 2023"
+    title="Hourly Rainfall Readings Across 2023"
 )
 
 fig_rain.update_layout(
@@ -100,9 +98,9 @@ fig_rain.update_layout(
 fig_rain.show()
 ```
 
-Watch the rainfall pattern across the year: Ulaanbaatar has a distinct summer spike, while Sarasota shows heavier tropical rainfall over multiple days throughout the year.
+Watch the rainfall pattern across the year: Ulaanbaatar has a distinct summer spike, while Sarasota shows heavier tropical rainfall over multiple hours throughout the year.
 
-## Daily summary
+## Overall summary
 
 ```{python}
 summary = daily_df.groupby("city").agg(
