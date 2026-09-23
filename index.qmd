@@ -17,7 +17,6 @@ How does the world's coldest national capital compare to sunny Florida? Explore 
 
 ```{python}
 import pandas as pd
-import plotly.express as px
 import plotly.graph_objects as go
 from datetime import datetime
 from meteostat import config, hourly
@@ -44,6 +43,9 @@ for city, station in stations.items():
     df["city"] = city
     df = df.rename(columns={"temp": "temp_c", "prcp": "rainfall_mm"})
     df["temp_f"] = (df["temp_c"] * 9 / 5) + 32
+    temperature_limits = {"Sarasota": (-10, 115), "Ulaanbaatar": (-60, 110)}
+    lower, upper = temperature_limits[city]
+    df = df[df["temp_f"].between(lower, upper)]
     records.append(df)
 
 daily_df = pd.concat(records, ignore_index=True)
@@ -248,12 +250,90 @@ Use the dropdown to compare one shared year or all available shared years. Ulaan
 
 ## Overall summary
 
+This summary uses the same shared-date, quality-filtered hourly observations shown in the charts. The average, coldest, and hottest temperatures describe individual hourly readings; total rainfall is the sum of the available hourly precipitation measurements.
+
 ```{python}
-summary = daily_df.groupby("city").agg(
-    avg_temp_f=("temp_f", "mean"),
-    total_rainfall_mm=("rainfall_mm", "sum")
-).round(2)
-summary
+summary = (
+    daily_df.groupby("city")
+    .agg(
+        coverage=("date", lambda values: f"{values.min():%b %d, %Y}–{values.max():%b %d, %Y}"),
+        hourly_observations=("temp_f", "count"),
+        average_temp_f=("temp_f", "mean"),
+        coldest_temp_f=("temp_f", "min"),
+        hottest_temp_f=("temp_f", "max"),
+        total_rainfall_mm=("rainfall_mm", "sum"),
+    )
+    .rename(
+        columns={
+            "coverage": "Coverage",
+            "hourly_observations": "Hourly observations",
+            "average_temp_f": "Average temperature (°F)",
+            "coldest_temp_f": "Coldest observation (°F)",
+            "hottest_temp_f": "Hottest observation (°F)",
+            "total_rainfall_mm": "Total rainfall (mm)",
+        }
+    )
+)
+
+summary_style = (
+    summary.style
+    .format({
+        "Hourly observations": "{:,.0f}",
+        "Average temperature (°F)": "{:.1f}",
+        "Coldest observation (°F)": "{:.1f}",
+        "Hottest observation (°F)": "{:.1f}",
+        "Total rainfall (mm)": "{:,.1f}",
+    })
+    .set_caption("Summary of valid shared-date observations")
+    .set_table_styles([
+        {
+            "selector": "caption",
+            "props": [
+                ("caption-side", "top"),
+                ("color", "#16324f"),
+                ("font-size", "1.05rem"),
+                ("font-weight", "600"),
+                ("padding", "0 0 .75rem"),
+                ("text-align", "left"),
+            ],
+        },
+        {
+            "selector": "thead th",
+            "props": [
+                ("background-color", "#277da1"),
+                ("color", "white"),
+                ("font-weight", "600"),
+                ("padding", ".75rem"),
+                ("text-align", "left"),
+            ],
+        },
+        {
+            "selector": "tbody th",
+            "props": [
+                ("background-color", "#eaf4f7"),
+                ("color", "#16324f"),
+                ("font-weight", "700"),
+                ("padding", ".75rem"),
+            ],
+        },
+        {
+            "selector": "tbody td",
+            "props": [
+                ("border-bottom", "1px solid #d7e6ea"),
+                ("padding", ".75rem"),
+            ],
+        },
+        {
+            "selector": "tbody tr:nth-child(even) td",
+            "props": [("background-color", "#f7fbfc")],
+        },
+        {
+            "selector": "tbody tr:hover td",
+            "props": [("background-color", "#fff1ec")],
+        },
+    ])
+)
+summary_style
 ```
 
 
