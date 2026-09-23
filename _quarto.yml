@@ -13,7 +13,7 @@ website:
         text: Story
     right:
       - icon: github
-        href: https://github.com/angeladvdrj/milestone-4
+        href: https://github.com/angeladavdrj/sarasota-mongolia
         aria-label: GitHub
   page-footer:
     center: "Weather Dashboard | Created for Bayesian Data Science"
