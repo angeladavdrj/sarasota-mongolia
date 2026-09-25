@@ -6,52 +6,31 @@ format:
 ---
 
 ::: {.lead}
-How does the world's coldest national capital compare to sunny Florida? Explore 2023 temperature and rainfall patterns between **Sarasota, FL** and **Ulaanbaatar, Mongolia**.
+How does the world's coldest national capital compare to sunny Florida? Explore multi-year temperature and rainfall patterns between **Sarasota, FL** and **Ulaanbaatar, Mongolia**.
 :::
 
 ::: {.callout-note appearance="simple" icon=false}
 ### 🌡️ At a Glance
-- **Sarasota:** Warm year-round, with more rainfall than Ulaanbaatar in this 2023 dataset.
+- **Sarasota:** Warm year-round, with more rainfall than Ulaanbaatar in this multi-year dataset.
 - **Ulaanbaatar:** Dramatic seasonal swings—warm summers followed by sub-zero winter extremes below -30°F.
 :::
 
 ```{python}
 import pandas as pd
 import plotly.graph_objects as go
-from datetime import datetime
-from meteostat import config, hourly
 
-config.block_large_requests = False
+# Load 10-year hourly weather dataset downloaded by download.R
+daily_df = pd.read_csv("hourly_temperatures.csv")
+daily_df["date"] = pd.to_datetime(daily_df["date"])
+daily_df = daily_df.dropna(subset=["temp_f"]).copy()
 
-start = datetime(2020, 1, 1)
-end = datetime(2024, 12, 31, 23, 59)
-
-stations = {
-    "Sarasota": "KSRQ0",
-    "Ulaanbaatar": "44292",
-}
-
-records = []
-
-for city, station in stations.items():
-    df = hourly(station, start, end).fetch()
-    if df is None or df.empty:
-        continue
-
-    df = df.reset_index().rename(columns={"time": "date"})
-    df = df[["date", "temp", "prcp"]].dropna().copy()
-    df["city"] = city
-    df = df.rename(columns={"temp": "temp_c", "prcp": "rainfall_mm"})
-    df["temp_f"] = (df["temp_c"] * 9 / 5) + 32
-    temperature_limits = {"Sarasota": (-10, 115), "Ulaanbaatar": (-60, 110)}
-    lower, upper = temperature_limits[city]
-    df = df[df["temp_f"].between(lower, upper)]
-    records.append(df)
-
-daily_df = pd.concat(records, ignore_index=True)
 daily_df = daily_df.sort_values(["city", "date"]).reset_index(drop=True)
 daily_df["year"] = daily_df["date"].dt.year
 daily_df["day"] = daily_df["date"].dt.date
+
+# Start from 2019 to ensure continuous, high-quality data across both cities
+daily_df = daily_df[daily_df["year"] >= 2019].copy()
+
 cities = ["Sarasota", "Ulaanbaatar"]
 shared_days = daily_df.groupby("day")["city"].nunique()
 daily_df = daily_df[
@@ -115,24 +94,40 @@ for city, color in city_colors.items():
         )
     ))
 
-dropdown_buttons = []
+total_temp_traces = len(years) * len(city_colors) + len(city_colors)
+all_temp_visible = [False] * (len(years) * len(city_colors)) + [True] * len(city_colors)
+
+dropdown_buttons = [
+    dict(
+        label="All",
+        method="update",
+        args=[
+            {"visible": all_temp_visible},
+            {
+                "title.text": all_title,
+                "xaxis.autorange": True
+            }
+        ]
+    )
+]
+
 for index, year in enumerate(years):
-    visible = [False] * (len(years) * len(city_colors) + len(city_colors))
+    visible = [False] * total_temp_traces
     visible[index * len(city_colors):(index + 1) * len(city_colors)] = [True] * len(city_colors)
+    min_date = str(year_ranges[year]["min"])
+    max_date = str(year_ranges[year]["max"])
     dropdown_buttons.append(dict(
         label=str(year),
         method="update",
-        args=[{"visible": visible}, {"title": year_titles[year]}]
+        args=[
+            {"visible": visible},
+            {
+                "title.text": year_titles[year],
+                "xaxis.range": [min_date, max_date],
+                "xaxis.autorange": False
+            }
+        ]
     ))
-
-dropdown_buttons.append(dict(
-    label="All",
-    method="update",
-    args=[
-        {"visible": [False] * (len(years) * len(city_colors)) + [True] * len(city_colors)},
-        {"title": all_title}
-    ]
-))
 
 fig_temp.add_hline(
     y=32,
@@ -144,25 +139,27 @@ fig_temp.add_hline(
 
 fig_temp.update_layout(
     template="plotly_white",
-    height=500,
-    title=all_title,
-    xaxis_title="Date",
+    height=540,
+    title=dict(text=all_title, x=0.5, xanchor="center", y=0.96, yanchor="top"),
+    xaxis=dict(title="Date", rangeslider=dict(visible=True)),
     yaxis_title="Temperature (°F)",
-    margin=dict(t=125, l=60, r=30, b=50),
+    margin=dict(t=120, l=60, r=30, b=70),
     updatemenus=[dict(
+        type="buttons",
+        direction="left",
         buttons=dropdown_buttons,
-        direction="down",
         showactive=True,
         x=0.5,
         xanchor="center",
-        y=1.16,
-        yanchor="top"
+        y=1.14,
+        yanchor="top",
+        pad={"r": 4, "t": 4},
     )]
 )
 fig_temp.show()
 ```
 
-Use the dropdown to compare a single shared year or all available shared years together. Ulaanbaatar drops far below 32°F in winter and rises to warm summer highs, while Sarasota stays relatively mild all year.
+Click any year button above to jump directly into that year, or click **All** to view the full timeline. You can also drag the timeline slider below the chart to zoom into specific months or seasons. Ulaanbaatar drops far below 32°F in winter and rises to warm summer highs, while Sarasota stays relatively mild all year.
 
 ## Hourly Rainfall Comparison
 
@@ -201,52 +198,66 @@ for city, color in city_colors.items():
         )
     ))
 
-rain_dropdown_buttons = []
+total_rain_traces = len(years) * len(city_colors) + len(city_colors)
+all_rain_visible = [False] * (len(years) * len(city_colors)) + [True] * len(city_colors)
+all_rain_title = f"Hourly Rainfall Readings Across {year_range} ({daily_df['date'].min():%b %d, %Y}–{daily_df['date'].max():%b %d, %Y})"
+
+rain_dropdown_buttons = [
+    dict(
+        label="All",
+        method="update",
+        args=[
+            {"visible": all_rain_visible},
+            {
+                "title.text": all_rain_title,
+                "xaxis.autorange": True
+            }
+        ]
+    )
+]
+
 for index, year in enumerate(years):
-    visible = [False] * (len(years) * len(city_colors) + len(city_colors))
+    visible = [False] * total_rain_traces
     visible[index * len(city_colors):(index + 1) * len(city_colors)] = [True] * len(city_colors)
+    min_date = str(year_ranges[year]["min"])
+    max_date = str(year_ranges[year]["max"])
     rain_dropdown_buttons.append(dict(
         label=str(year),
         method="update",
         args=[
             {"visible": visible},
-            {"title": f"Hourly Rainfall Readings Across {year} "
-                       f"({year_ranges[year]['min']:%b %d}–{year_ranges[year]['max']:%b %d})"}
+            {
+                "title.text": f"Hourly Rainfall Readings Across {year} ({year_ranges[year]['min']:%b %d}–{year_ranges[year]['max']:%b %d})",
+                "xaxis.range": [min_date, max_date],
+                "xaxis.autorange": False
+            }
         ]
     ))
 
-rain_dropdown_buttons.append(dict(
-    label="All",
-    method="update",
-    args=[
-        {"visible": [False] * (len(years) * len(city_colors)) + [True] * len(city_colors)},
-        {"title": f"Hourly Rainfall Readings Across {year_range} "
-                   f"({daily_df['date'].min():%b %d, %Y}–{daily_df['date'].max():%b %d, %Y})"}
-    ]
-))
-
 fig_rain.update_layout(
     template="plotly_white",
-    height=500,
-    title=f"Hourly Rainfall Readings Across {year_range}",
-    xaxis_title="Date",
+    height=540,
+    title=dict(text=all_rain_title, x=0.5, xanchor="center", y=0.96, yanchor="top"),
+    xaxis=dict(title="Date", rangeslider=dict(visible=True)),
     yaxis_title="Rainfall (mm)",
     yaxis=dict(rangemode="tozero"),
-    margin=dict(t=125, l=60, r=30, b=50),
+    margin=dict(t=120, l=60, r=30, b=70),
     updatemenus=[dict(
+        type="buttons",
+        direction="left",
         buttons=rain_dropdown_buttons,
-        direction="down",
         showactive=True,
         x=0.5,
         xanchor="center",
-        y=1.16,
-        yanchor="top"
+        y=1.14,
+        yanchor="top",
+        pad={"r": 4, "t": 4},
     )]
 )
 fig_rain.show()
 ```
 
-Use the dropdown to compare one shared year or all available shared years. Ulaanbaatar has a distinct summer rainfall pulse, while Sarasota shows heavier rainfall across more of the year.
+Click any year button or use the timeline slider to compare rainfall patterns across single years or the entire timeline. Ulaanbaatar has a distinct summer rainfall pulse, while Sarasota shows heavier rainfall across more of the year.
 
 ## Overall summary
 

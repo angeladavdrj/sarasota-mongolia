@@ -11,12 +11,12 @@ format:
 ::: {.g-col-12 .g-col-md-6}
 ### Angela Davdrj
 
-- Email: [angeladavdrj@gmail.com](mailto:angeladavdrj@gmail.com)
+- Email: [a.davaadorj30@ncf.edu](mailto:a.davaadorj30@ncf.edu)
 - GitHub: [@angeladavdrj](https://github.com/angeladavdrj)
 - Final project repo: [sarasota-mongolia](https://github.com/angeladavdrj/sarasota-mongolia)
 - New College of Florida: [ncf.edu](https://www.ncf.edu/)
 
-I am a student in the Bayesian Data Science course, and this project is part of my work exploring how environmental patterns differ across very different climates. I am especially interested in using data visualization and statistical thinking to compare places that have strikingly different seasonal and weather dynamics.
+I am from Mongolia and now live in Sarasota, Florida. This project brings those two places together, using weather data to explore how different their seasons, temperatures, and rainfall patterns can be.
 :::
 
 ::: {.g-col-12 .g-col-md-6}

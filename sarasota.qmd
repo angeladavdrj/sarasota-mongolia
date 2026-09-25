@@ -36,19 +36,12 @@ This page focuses on Sarasota's climate pattern across the year.
 
 ```{python}
 import pandas as pd
-from datetime import datetime
-from meteostat import config, hourly
 
-config.block_large_requests = False
-
-start = datetime(2020, 1, 1)
-end = datetime(2024, 1, 1)
-
-station = "KSRQ0"
-df = hourly(station, start, end).fetch().reset_index().rename(columns={"time": "date"})
-
-df = df[["date", "temp", "prcp"]].dropna().copy()
-df["temp_f"] = (df["temp"] * 9 / 5) + 32
+df = pd.read_csv("hourly_temperatures.csv")
+df["date"] = pd.to_datetime(df["date"])
+df = df[df["city"] == "Sarasota"].copy()
+df = df[df["date"].dt.year >= 2019].dropna(subset=["temp_f"]).copy()
+df = df.rename(columns={"rainfall_mm": "prcp", "temp_c": "temp"})
 df["month_name"] = df["date"].dt.strftime("%b")
 df["month_num"] = df["date"].dt.month
 

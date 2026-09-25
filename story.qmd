@@ -14,34 +14,14 @@ Choose any Sarasota day below. Winter dates are grouped at the top of the menu s
 ```{python}
 import json
 import pandas as pd
-from datetime import datetime
-from meteostat import config, daily
 from IPython.display import HTML, display
 
-config.block_large_requests = False
-
-start = datetime(2023, 1, 1)
-end = datetime(2023, 12, 31, 23, 59)
-
-stations = {
-    "Sarasota": "KSRQ0",
-    "Ulaanbaatar": "44292",
-}
-
-records = []
-for city, station in stations.items():
-    weather = daily(station, start, end).fetch()
-    if weather is None or weather.empty:
-        continue
-
-    weather = weather.reset_index().rename(columns={"time": "date"})
-    weather = weather[["date", "temp"]].dropna().copy()
-    weather["city"] = city
-    weather["temp_f"] = (weather["temp"] * 9 / 5) + 32
-    records.append(weather)
-
-weather = pd.concat(records, ignore_index=True)
+# Load 2023 data from hourly weather archive
+weather = pd.read_csv("hourly_temperatures.csv")
+weather["date"] = pd.to_datetime(weather["date"])
+weather = weather.dropna(subset=["temp_f"]).copy()
 weather["day"] = weather["date"].dt.date.astype(str)
+weather = weather[weather["date"].dt.year == 2023].copy()
 daily_data = (
     weather.groupby(["city", "day"], as_index=False)["temp_f"]
     .mean()

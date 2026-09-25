@@ -4,6 +4,14 @@
 *_files/
 *_cache/
 **/*.quarto_ipynb
+/site_libs/
+*.html
+!stickers.html
+
+# Download archives and temporary data
+*.gz
+*.tar.gz
+*.zip
 
 # Python caches
 __pycache__/
@@ -15,7 +23,9 @@ __pycache__/
 .Rhistory
 .RData
 .Ruserdata
+.Renviron
 
 # OS generated files
 .DS_Store
 Thumbs.db
+

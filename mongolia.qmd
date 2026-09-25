@@ -11,15 +11,31 @@ This page focuses on Mongolia's climate pattern across the year.
 <div id="mongoliaCarousel" class="carousel slide" data-bs-ride="carousel" style="max-width: 700px; margin: 20px auto;">
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Mongolian_yurt_in_steppe.jpg/960px-Mongolian_yurt_in_steppe.jpg" class="d-block w-100" style="height: 380px; object-fit: cover; border-radius: 8px;" alt="Mongolian yurt in steppe">
-      <div class="carousel-caption d-none d-md-block">
-        <h5>Mongolian Steppe</h5>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Ulaanbaatar%20skyline.jpg?width=960" class="d-block w-100" style="height: 380px; object-fit: cover; border-radius: 8px;" alt="Ulaanbaatar skyline and urban neighborhoods">
+      <div class="carousel-caption d-none d-md-block" style="background: rgba(0, 0, 0, 0.55); border-radius: 6px; padding: 6px 12px; bottom: 18px;">
+        <h5 class="m-0">Ulaanbaatar City</h5>
+        <small>Apartment neighborhoods and busy streets shape daily life in Mongolia's capital.</small>
       </div>
     </div>
     <div class="carousel-item">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Landscape_of_Mongolia_01.jpg/960px-Landscape_of_Mongolia_01.jpg" class="d-block w-100" style="height: 380px; object-fit: cover; border-radius: 8px;" alt="Landscape of Mongolia">
-      <div class="carousel-caption d-none d-md-block">
-        <h5>Mongolian Countryside</h5>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/UB%20downtown.jpg?width=960" class="d-block w-100" style="height: 380px; object-fit: cover; border-radius: 8px;" alt="Downtown Ulaanbaatar">
+      <div class="carousel-caption d-none d-md-block" style="background: rgba(0, 0, 0, 0.55); border-radius: 6px; padding: 6px 12px; bottom: 18px;">
+        <h5 class="m-0">Downtown Life</h5>
+        <small>Cafes, markets, offices, and cultural spaces stay active through the seasons.</small>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/2024-10-18%20View%20of%20Ulaanbaatar.jpg?width=960" class="d-block w-100" style="height: 380px; object-fit: cover; border-radius: 8px;" alt="View of Ulaanbaatar in winter">
+      <div class="carousel-caption d-none d-md-block" style="background: rgba(0, 0, 0, 0.55); border-radius: 6px; padding: 6px 12px; bottom: 18px;">
+        <h5 class="m-0">Winter City Routines</h5>
+        <small>Cold weather influences transportation, heating, clothing, and time outdoors.</small>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Bogd%20Khan%20Uul.jpg?width=960" class="d-block w-100" style="height: 380px; object-fit: cover; border-radius: 8px;" alt="Bogd Khan mountain near Ulaanbaatar">
+      <div class="carousel-caption d-none d-md-block" style="background: rgba(0, 0, 0, 0.55); border-radius: 6px; padding: 6px 12px; bottom: 18px;">
+        <h5 class="m-0">Hiking Near the City</h5>
+        <small>Summer weekends bring Ulaanbaatar residents into the surrounding mountains.</small>
       </div>
     </div>
   </div>
@@ -34,47 +50,28 @@ This page focuses on Mongolia's climate pattern across the year.
 </div>
 ```
 
-```{python}
-import pandas as pd
-from datetime import datetime
-from meteostat import config, hourly
+## City Life & Outdoor Culture
 
-config.block_large_requests = False
+Most Mongolians live in urban areas, and Ulaanbaatar is a busy city shaped by the same dramatic seasons shown in the chart. Daily life includes apartment neighborhoods, universities, offices, restaurants, shopping districts, and long winter commutes. Residents adapt to the cold with insulated buildings, warm layers, and indoor gathering places rather than treating winter as a reason to stop city life.
 
-start = datetime(2020, 1, 1)
-end = datetime(2024, 1, 1)
+The outdoors are also part of the rhythm of city life, especially in summer. People in Ulaanbaatar can leave the city for the Bogd Khan mountains to hike, enjoy wide views, and spend time in nature. That creates a different warm-weather pattern from Sarasota, where residents often use the beach, waterfront, and nearby parks for swimming, walking, and relaxing outdoors.
 
-station = "44292"
-df = hourly(station, start, end).fetch().reset_index().rename(columns={"time": "date"})
-
-df = df[["date", "temp", "prcp"]].dropna().copy()
-df["temp_f"] = (df["temp"] * 9 / 5) + 32
-df["month_name"] = df["date"].dt.strftime("%b")
-df["month_num"] = df["date"].dt.month
-
-monthly = (
-    df.groupby(["month_num", "month_name"], as_index=False)
-    .agg(
-        avg_temp_c=("temp", "mean"),
-        total_rainfall_mm=("prcp", "sum")
-    )
-    .sort_values("month_num")
-)
-
-months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-monthly["month_name"] = pd.Categorical(monthly["month_name"], categories=months, ordered=True)
-
-monthly
-```
+- **Ulaanbaatar in winter:** Cold temperatures shape transportation, clothing, heating, and the amount of time people spend outside, but cafes, markets, schools, and cultural spaces remain active.
+- **Ulaanbaatar in summer:** Warmer, drier weather makes hiking and trips into the surrounding mountains popular weekend activities.
+- **Sarasota in warm weather:** Beach visits and waterfront activities are an everyday part of outdoor life, supported by a warmer climate and access to the Gulf coast.
 
 ## Key pattern
 
 Mongolia has a much colder winter and a sharper seasonal temperature swing than Sarasota. Rainfall is relatively low overall, but the climate still shows a clear warm-season pulse.
 
 ```{python}
+import pandas as pd
 import plotly.express as px
 
-# Use the daily temperature records instead of the monthly aggregate.
+df = pd.read_csv("hourly_temperatures.csv")
+df["date"] = pd.to_datetime(df["date"])
+df = df[(df["city"] == "Ulaanbaatar") & (df["date"].dt.year >= 2019)].copy()
+df = df.dropna(subset=["temp_f"])
 everyday = df[["date", "temp_f"]].copy()
 
 a = px.scatter(

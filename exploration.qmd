@@ -7,41 +7,17 @@ format:
 
 ## Explore the weather data
 
-Choose a city and measure from the menu inside the chart. The date-range slider lets you focus on a particular part of 2022–2024. The readings are hourly observations, so zooming in reveals changes across individual hours rather than daily averages.
+Choose a city and measure from the menu inside the chart. The date-range slider lets you focus on a particular part of 2019–2025. The readings are hourly observations, so zooming in reveals changes across individual hours rather than daily averages.
 
 ```{python}
 import pandas as pd
 import plotly.graph_objects as go
-from datetime import datetime
-from meteostat import config, hourly
 
-config.block_large_requests = False
-
-start = datetime(2022, 1, 1)
-end = datetime(2024, 12, 31, 23, 59)
-
-stations = {
-    "Sarasota": "KSRQ0",
-    "Ulaanbaatar": "44292",
-}
-
-records = []
-
-for city, station in stations.items():
-    weather = hourly(station, start, end).fetch()
-    if weather is None or weather.empty:
-        continue
-
-    weather = weather.reset_index().rename(columns={"time": "date"})
-    weather = weather[["date", "temp", "prcp"]].dropna().copy()
-    weather["city"] = city
-    weather["temp_f"] = (weather["temp"] * 9 / 5) + 32
-    temperature_limits = {"Sarasota": (-10, 115), "Ulaanbaatar": (-60, 110)}
-    lower, upper = temperature_limits[city]
-    weather = weather[weather["temp_f"].between(lower, upper)]
-    records.append(weather)
-
-weather_data = pd.concat(records, ignore_index=True)
+# Load 10-year hourly weather dataset starting from 2019
+weather_data = pd.read_csv("hourly_temperatures.csv")
+weather_data["date"] = pd.to_datetime(weather_data["date"])
+weather_data = weather_data[weather_data["date"].dt.year >= 2019].dropna(subset=["temp_f"]).copy()
+weather_data = weather_data.rename(columns={"rainfall_mm": "prcp"})
 
 fig = go.Figure()
 selections = [
@@ -76,8 +52,8 @@ for index, (city, measure, column, y_title, color) in enumerate(selections):
             "args": [
                 {"visible": visible},
                 {
-                    "title": f"{city} hourly {measure.lower()} readings in 2022–2024",
-                    "yaxis": {"title": y_title},
+                    "title.text": f"{city} hourly {measure.lower()} readings in 2019–2025",
+                    "yaxis.title.text": y_title,
                 },
             ],
         }
@@ -85,9 +61,14 @@ for index, (city, measure, column, y_title, color) in enumerate(selections):
 
 fig.update_layout(
     template="plotly_white",
-    title="Sarasota hourly temperature readings in 2022–2024",
-    width=950,
-    height=560,
+    title=dict(
+        text="Sarasota hourly temperature readings in 2019–2025",
+        x=0.5,
+        xanchor="center",
+        y=0.97,
+        yanchor="top",
+    ),
+    height=600,
     hovermode="x unified",
     xaxis={
         "title": "Date and time",
@@ -96,25 +77,32 @@ fig.update_layout(
             "buttons": [
                 {"count": 1, "label": "1 month", "step": "month", "stepmode": "backward"},
                 {"count": 3, "label": "3 months", "step": "month", "stepmode": "backward"},
+                {"count": 1, "label": "1 year", "step": "year", "stepmode": "backward"},
                 {"step": "all", "label": "All available"},
-            ]
+            ],
+            "x": 0,
+            "xanchor": "left",
+            "y": 1.12,
+            "yanchor": "top",
         },
     },
     yaxis={"title": "Temperature (°F)"},
     updatemenus=[
         {
+            "type": "buttons",
+            "direction": "left",
             "buttons": buttons,
-            "direction": "down",
             "showactive": True,
-            "x": 0,
-            "xanchor": "left",
-            "y": 1.16,
+            "x": 0.5,
+            "xanchor": "center",
+            "y": 1.28,
             "yanchor": "top",
+            "pad": {"r": 4, "t": 4},
         }
     ],
-    margin={"t": 120, "r": 30, "b": 80, "l": 70},
+    margin={"t": 160, "r": 30, "b": 80, "l": 70},
 )
 fig.show()
 ```
 
-Use the menu to compare the two cities and switch between temperature and rainfall. Try narrowing the slider to winter or summer to see when the two places differ most across 2022–2024.
+Use the menu to compare the two cities and switch between temperature and rainfall. Try narrowing the slider to winter or summer to see when the two places differ most across 2019–2025.

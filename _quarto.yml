@@ -1,5 +1,11 @@
 project:
   type: website
+  render:
+    - index.qmd
+    - exploration.qmd
+    - story.qmd
+    - about.qmd
+    - mongolia.qmd
 
 website:
   title: "Weather Dashboard"
@@ -11,9 +17,11 @@ website:
         text: Exploration
       - href: story.qmd
         text: Story
-    right:
+      - href: mongolia.qmd
+        text: Mongolia
       - href: about.qmd
         text: About
+    right:
       - icon: github
         href: https://github.com/angeladavdrj/sarasota-mongolia
         aria-label: GitHub
