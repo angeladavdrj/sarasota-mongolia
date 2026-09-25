@@ -1,0 +1,31 @@
+---
+title: "About"
+format:
+  html:
+    toc: false
+---
+
+## About Me
+
+::: {.grid}
+::: {.g-col-12 .g-col-md-6}
+### Angela Davdrj
+
+- Email: [angeladavdrj@gmail.com](mailto:angeladavdrj@gmail.com)
+- GitHub: [@angeladavdrj](https://github.com/angeladavdrj)
+- Final project repo: [sarasota-mongolia](https://github.com/angeladavdrj/sarasota-mongolia)
+- New College of Florida: [ncf.edu](https://www.ncf.edu/)
+
+I am a student in the Bayesian Data Science course, and this project is part of my work exploring how environmental patterns differ across very different climates. I am especially interested in using data visualization and statistical thinking to compare places that have strikingly different seasonal and weather dynamics.
+:::
+
+::: {.g-col-12 .g-col-md-6}
+### Quick background
+
+My work focuses on translating raw environmental data into clear, readable stories about climate and place. This website compares the daily weather record of Sarasota, Florida, and Ulaanbaatar, Mongolia to highlight differences in temperature, seasonality, and rainfall across the same time window.
+:::
+:::
+
+## Data Source
+
+This project uses historical hourly weather data from Meteostat, a public weather data service that aggregates observational records from meteorological stations around the world. The analysis compares hourly temperature and precipitation observations from Sarasota, Florida (station KSRQ0) and Ulaanbaatar, Mongolia (station 44292) over a shared multi-year period. The data were accessed through the Meteostat Python API and then cleaned and visualized for comparison in this website. For more information, see [Meteostat](https://meteostat.net/), the [Meteostat API documentation](https://dev.meteostat.net/python/), and the station records for [Sarasota](https://meteostat.net/en/station/KSRQ0) and [Ulaanbaatar](https://meteostat.net/en/station/44292).

@@ -12,6 +12,8 @@ website:
       - href: story.qmd
         text: Story
     right:
+      - href: about.qmd
+        text: About
       - icon: github
         href: https://github.com/angeladavdrj/sarasota-mongolia
         aria-label: GitHub
