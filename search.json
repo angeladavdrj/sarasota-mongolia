@@ -1,24 +1,17 @@
 [
   {
-    "objectID": "story.html",
-    "href": "story.html",
-    "title": "Sarasota’s ‘Freezing’ Winter",
-    "section": "",
-    "text": "Sarasota residents sometimes describe winter days as freezing. But “cold” depends on what your body is used to. For someone from Mongolia, a Sarasota winter day can look much more like a mild or even summery day at home.\nChoose any Sarasota day below. Winter dates are grouped at the top of the menu so you can focus on the days Sarasota residents may call “freezing.” The comparison finds the day in Ulaanbaatar with the closest daily average air temperature.\n\n\n\n\n\n\n  Explore the year: move the slider to choose a Sarasota day\n  2023-01-01Winter date\n  \n  Or enter an exact date\n  \n  \n    \n      \n      70.9 °F\n      \n      Daily average air temperature\n    \n    \n      \n      68.7 °F\n      \n      Daily average air temperature\n    \n  \n  \n\n\n\n\n\n\n\nThe same temperature that feels painfully cold to a Sarasota resident can be ordinary warm-season weather in Mongolia. A Sarasota winter day can feel like a break from the cold to someone who grew up in Ulaanbaatar."
-  },
-  {
-    "objectID": "story.html#is-sarasotas-winter-really-freezing",
-    "href": "story.html#is-sarasotas-winter-really-freezing",
-    "title": "Sarasota’s ‘Freezing’ Winter",
-    "section": "",
-    "text": "Sarasota residents sometimes describe winter days as freezing. But “cold” depends on what your body is used to. For someone from Mongolia, a Sarasota winter day can look much more like a mild or even summery day at home.\nChoose any Sarasota day below. Winter dates are grouped at the top of the menu so you can focus on the days Sarasota residents may call “freezing.” The comparison finds the day in Ulaanbaatar with the closest daily average air temperature.\n\n\n\n\n\n\n  Explore the year: move the slider to choose a Sarasota day\n  2023-01-01Winter date\n  \n  Or enter an exact date\n  \n  \n    \n      \n      70.9 °F\n      \n      Daily average air temperature\n    \n    \n      \n      68.7 °F\n      \n      Daily average air temperature\n    \n  \n  \n\n\n\n\n\n\n\nThe same temperature that feels painfully cold to a Sarasota resident can be ordinary warm-season weather in Mongolia. A Sarasota winter day can feel like a break from the cold to someone who grew up in Ulaanbaatar."
-  },
-  {
     "objectID": "mongolia.html",
     "href": "mongolia.html",
     "title": "Mongolia",
     "section": "",
-    "text": "This page focuses on Mongolia’s climate pattern across the year.\nmonth_num\nmonth_name\navg_temp_c\ntotal_rainfall_mm\n\n\n\n\n0\n1\nJan\n-21.067248\n0.5\n\n\n1\n2\nFeb\n-13.172173\n0.0\n\n\n2\n3\nMar\n-3.69086\n5.6\n\n\n3\n4\nApr\n0.414028\n17.1\n\n\n4\n5\nMay\n9.042421\n59.6\n\n\n5\n6\nJun\n17.156528\n83.7\n\n\n6\n7\nJul\n17.802218\n260.0\n\n\n7\n8\nAug\n15.769892\n171.2\n\n\n8\n9\nSep\n11.507361\n81.9\n\n\n9\n10\nOct\n2.078091\n16.7\n\n\n10\n11\nNov\n-11.336042\n19.0\n\n\n11\n12\nDec\n-20.093414\n13.0"
+    "text": "This page focuses on Mongolia’s climate pattern across the year."
+  },
+  {
+    "objectID": "mongolia.html#city-life-outdoor-culture",
+    "href": "mongolia.html#city-life-outdoor-culture",
+    "title": "Mongolia",
+    "section": "City Life & Outdoor Culture",
+    "text": "City Life & Outdoor Culture\nMost Mongolians live in urban areas, and Ulaanbaatar is a busy city shaped by the same dramatic seasons shown in the chart. Daily life includes apartment neighborhoods, universities, offices, restaurants, shopping districts, and long winter commutes. Residents adapt to the cold with insulated buildings, warm layers, and indoor gathering places rather than treating winter as a reason to stop city life.\nThe outdoors are also part of the rhythm of city life, especially in summer. People in Ulaanbaatar can leave the city for the Bogd Khan mountains to hike, enjoy wide views, and spend time in nature. That creates a different warm-weather pattern from Sarasota, where residents often use the beach, waterfront, and nearby parks for swimming, walking, and relaxing outdoors.\n\nUlaanbaatar in winter: Cold temperatures shape transportation, clothing, heating, and the amount of time people spend outside, but cafes, markets, schools, and cultural spaces remain active.\nUlaanbaatar in summer: Warmer, drier weather makes hiking and trips into the surrounding mountains popular weekend activities.\nSarasota in warm weather: Beach visits and waterfront activities are an everyday part of outdoor life, supported by a warmer climate and access to the Gulf coast."
   },
   {
     "objectID": "mongolia.html#key-pattern",
@@ -28,59 +21,80 @@
     "text": "Key pattern\nMongolia has a much colder winter and a sharper seasonal temperature swing than Sarasota. Rainfall is relatively low overall, but the climate still shows a clear warm-season pulse."
   },
   {
-    "objectID": "exploration.html",
-    "href": "exploration.html",
-    "title": "Exploration",
+    "objectID": "story.html",
+    "href": "story.html",
+    "title": "Sarasota’s ‘Freezing’ Winter",
     "section": "",
-    "text": "Choose a city and measure from the menu inside the chart. The date-range slider lets you focus on a particular part of 2023. The readings are hourly observations, so zooming in reveals changes across individual hours rather than daily averages.\n\n\n                            \n                                            \n\n\nUse the menu to compare the two cities and switch between temperature and rainfall. Try narrowing the slider to winter or summer to see when the two places differ most."
+    "text": "Sarasota residents sometimes describe winter days as freezing. But “cold” depends on what your body is used to. For someone from Mongolia, a Sarasota winter day can look much more like a mild or even summery day at home.\nChoose any Sarasota day below. Winter dates are grouped at the top of the menu so you can focus on the days Sarasota residents may call “freezing.” The comparison finds the day in Ulaanbaatar with the closest daily average air temperature.\n\n\n\n\n\n\n  Explore the year: move the slider to choose a Sarasota day\n  2023-01-01Winter date\n  \n  Or enter an exact date\n  \n  \n    \n      \n      71.8 °F\n      \n      Daily average air temperature\n    \n    \n      \n      72.0 °F\n      \n      Daily average air temperature\n    \n  \n  \n\n\n\n\n\n\n\nThe same temperature that feels painfully cold to a Sarasota resident can be ordinary warm-season weather in Mongolia. A Sarasota winter day can feel like a break from the cold to someone who grew up in Ulaanbaatar."
   },
   {
-    "objectID": "exploration.html#explore-the-weather-data",
-    "href": "exploration.html#explore-the-weather-data",
-    "title": "Exploration",
+    "objectID": "story.html#is-sarasotas-winter-really-freezing",
+    "href": "story.html#is-sarasotas-winter-really-freezing",
+    "title": "Sarasota’s ‘Freezing’ Winter",
     "section": "",
-    "text": "Choose a city and measure from the menu inside the chart. The date-range slider lets you focus on a particular part of 2023. The readings are hourly observations, so zooming in reveals changes across individual hours rather than daily averages.\n\n\n                            \n                                            \n\n\nUse the menu to compare the two cities and switch between temperature and rainfall. Try narrowing the slider to winter or summer to see when the two places differ most."
-  },
-  {
-    "objectID": "sarasota.html",
-    "href": "sarasota.html",
-    "title": "Sarasota",
-    "section": "",
-    "text": "This page focuses on Sarasota’s climate pattern across the year."
-  },
-  {
-    "objectID": "sarasota.html#key-pattern",
-    "href": "sarasota.html#key-pattern",
-    "title": "Sarasota",
-    "section": "Key pattern",
-    "text": "Key pattern\nSarasota stays relatively warm throughout the year, with higher rainfall during the warmer months and a gentler winter climate compared with Ulaanbaatar."
+    "text": "Sarasota residents sometimes describe winter days as freezing. But “cold” depends on what your body is used to. For someone from Mongolia, a Sarasota winter day can look much more like a mild or even summery day at home.\nChoose any Sarasota day below. Winter dates are grouped at the top of the menu so you can focus on the days Sarasota residents may call “freezing.” The comparison finds the day in Ulaanbaatar with the closest daily average air temperature.\n\n\n\n\n\n\n  Explore the year: move the slider to choose a Sarasota day\n  2023-01-01Winter date\n  \n  Or enter an exact date\n  \n  \n    \n      \n      71.8 °F\n      \n      Daily average air temperature\n    \n    \n      \n      72.0 °F\n      \n      Daily average air temperature\n    \n  \n  \n\n\n\n\n\n\n\nThe same temperature that feels painfully cold to a Sarasota resident can be ordinary warm-season weather in Mongolia. A Sarasota winter day can feel like a break from the cold to someone who grew up in Ulaanbaatar."
   },
   {
     "objectID": "index.html",
     "href": "index.html",
     "title": "UB Weather Dashboard",
     "section": "",
-    "text": "How does the world’s coldest national capital compare to sunny Florida? Explore 2023 temperature and rainfall patterns between Sarasota, FL and Ulaanbaatar, Mongolia."
+    "text": "How does the world’s coldest national capital compare to sunny Florida? Explore multi-year temperature and rainfall patterns between Sarasota, FL and Ulaanbaatar, Mongolia."
   },
   {
     "objectID": "index.html#hourly-temperature-comparison",
     "href": "index.html#hourly-temperature-comparison",
     "title": "UB Weather Dashboard",
     "section": "Hourly Temperature Comparison",
-    "text": "Hourly Temperature Comparison\n\n\n                            \n                                            \n\n\nNotice how Ulaanbaatar drops far below 32°F in winter and rises to warm summer highs, while Sarasota stays relatively mild all year."
+    "text": "Hourly Temperature Comparison\n\n\n                            \n                                            \n\n\nClick any year button above to jump directly into that year, or click All to view the full timeline. You can also drag the timeline slider below the chart to zoom into specific months or seasons. Ulaanbaatar drops far below 32°F in winter and rises to warm summer highs, while Sarasota stays relatively mild all year."
   },
   {
     "objectID": "index.html#hourly-rainfall-comparison",
     "href": "index.html#hourly-rainfall-comparison",
     "title": "UB Weather Dashboard",
     "section": "Hourly Rainfall Comparison",
-    "text": "Hourly Rainfall Comparison\n\n\n                            \n                                            \n\n\nWatch the rainfall pattern across the year: Ulaanbaatar has a distinct summer spike, while Sarasota shows heavier tropical rainfall over multiple hours throughout the year."
+    "text": "Hourly Rainfall Comparison\n\n\n                            \n                                            \n\n\nClick any year button or use the timeline slider to compare rainfall patterns across single years or the entire timeline. Ulaanbaatar has a distinct summer rainfall pulse, while Sarasota shows heavier rainfall across more of the year."
   },
   {
     "objectID": "index.html#overall-summary",
     "href": "index.html#overall-summary",
     "title": "UB Weather Dashboard",
     "section": "Overall summary",
-    "text": "Overall summary\n\n\n\n\n\n\n\n\n\navg_temp_f\ntotal_rainfall_mm\n\n\ncity\n\n\n\n\n\n\nSarasota\n75.63\n476.3\n\n\nUlaanbaatar\n33.34\n395.9"
+    "text": "Overall summary\nThis summary uses the same shared-date, quality-filtered hourly observations shown in the charts. The average, coldest, and hottest temperatures describe individual hourly readings; total rainfall is the sum of the available hourly precipitation measurements.\n\n\n\n\n\n\n\nTable 1: Summary of valid shared-date observations\n\n\n\n\n\n \nCoverage\nHourly observations\nAverage temperature (°F)\nColdest observation (°F)\nHottest observation (°F)\nTotal rainfall (mm)\n\n\ncity\n \n \n \n \n \n \n\n\n\n\nSarasota\nMay 21, 2019–Nov 28, 2025\n57,181\n75.2\n-77.1\n99.0\n6,862.0\n\n\nUlaanbaatar\nMay 21, 2019–Nov 28, 2025\n57,186\n35.3\n-31.4\n94.3\n1,386.9"
+  },
+  {
+    "objectID": "exploration.html",
+    "href": "exploration.html",
+    "title": "Exploration",
+    "section": "",
+    "text": "Choose a city and measure from the menu inside the chart. The date-range slider lets you focus on a particular part of 2019–2025. The readings are hourly observations, so zooming in reveals changes across individual hours rather than daily averages.\n\n\n                            \n                                            \n\n\nUse the menu to compare the two cities and switch between temperature and rainfall. Try narrowing the slider to winter or summer to see when the two places differ most across 2019–2025."
+  },
+  {
+    "objectID": "exploration.html#explore-the-weather-data",
+    "href": "exploration.html#explore-the-weather-data",
+    "title": "Exploration",
+    "section": "",
+    "text": "Choose a city and measure from the menu inside the chart. The date-range slider lets you focus on a particular part of 2019–2025. The readings are hourly observations, so zooming in reveals changes across individual hours rather than daily averages.\n\n\n                            \n                                            \n\n\nUse the menu to compare the two cities and switch between temperature and rainfall. Try narrowing the slider to winter or summer to see when the two places differ most across 2019–2025."
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "Email: a.davaadorj30@ncf.edu\nGitHub: @angeladavdrj\nFinal project repo: sarasota-mongolia\nNew College of Florida: ncf.edu\n\nI am from Mongolia and now live in Sarasota, Florida. This project brings those two places together, using weather data to explore how different their seasons, temperatures, and rainfall patterns can be.\n\n\n\nMy work focuses on translating raw environmental data into clear, readable stories about climate and place. This website compares the daily weather record of Sarasota, Florida, and Ulaanbaatar, Mongolia to highlight differences in temperature, seasonality, and rainfall across the same time window."
+  },
+  {
+    "objectID": "about.html#about-me",
+    "href": "about.html#about-me",
+    "title": "About",
+    "section": "",
+    "text": "Email: a.davaadorj30@ncf.edu\nGitHub: @angeladavdrj\nFinal project repo: sarasota-mongolia\nNew College of Florida: ncf.edu\n\nI am from Mongolia and now live in Sarasota, Florida. This project brings those two places together, using weather data to explore how different their seasons, temperatures, and rainfall patterns can be.\n\n\n\nMy work focuses on translating raw environmental data into clear, readable stories about climate and place. This website compares the daily weather record of Sarasota, Florida, and Ulaanbaatar, Mongolia to highlight differences in temperature, seasonality, and rainfall across the same time window."
+  },
+  {
+    "objectID": "about.html#data-source",
+    "href": "about.html#data-source",
+    "title": "About",
+    "section": "Data Source",
+    "text": "Data Source\nThis project uses historical hourly weather data from Meteostat, a public weather data service that aggregates observational records from meteorological stations around the world. The analysis compares hourly temperature and precipitation observations from Sarasota, Florida (station KSRQ0) and Ulaanbaatar, Mongolia (station 44292) over a shared multi-year period. The data were accessed through the Meteostat Python API and then cleaned and visualized for comparison in this website. For more information, see Meteostat, the Meteostat API documentation, and the station records for Sarasota and Ulaanbaatar."
   }
 ]
