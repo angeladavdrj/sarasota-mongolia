@@ -37,28 +37,21 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "UB Weather Dashboard",
+    "title": "Hourly Temperature Comparison",
     "section": "",
-    "text": "How does the world’s coldest national capital compare to sunny Florida? Explore multi-year temperature and rainfall patterns between Sarasota, FL and Ulaanbaatar, Mongolia."
-  },
-  {
-    "objectID": "index.html#hourly-temperature-comparison",
-    "href": "index.html#hourly-temperature-comparison",
-    "title": "UB Weather Dashboard",
-    "section": "Hourly Temperature Comparison",
-    "text": "Hourly Temperature Comparison\n\n\n                            \n                                            \n\n\nClick any year button above to jump directly into that year, or click All to view the full timeline. You can also drag the timeline slider below the chart to zoom into specific months or seasons. Ulaanbaatar drops far below 32°F in winter and rises to warm summer highs, while Sarasota stays relatively mild all year."
+    "text": "How does the world’s coldest national capital compare to sunny Florida? Explore multi-year temperature and rainfall patterns between Sarasota, FL and Ulaanbaatar, Mongolia.\nClick any year button above to jump directly into that year, or click All to view the full timeline. You can also drag the timeline slider below the chart to zoom into specific months or seasons. Ulaanbaatar drops far below 32°F in winter and rises to warm summer highs, while Sarasota stays relatively mild all year."
   },
   {
     "objectID": "index.html#hourly-rainfall-comparison",
     "href": "index.html#hourly-rainfall-comparison",
-    "title": "UB Weather Dashboard",
+    "title": "Hourly Temperature Comparison",
     "section": "Hourly Rainfall Comparison",
     "text": "Hourly Rainfall Comparison\n\n\n                            \n                                            \n\n\nClick any year button or use the timeline slider to compare rainfall patterns across single years or the entire timeline. Ulaanbaatar has a distinct summer rainfall pulse, while Sarasota shows heavier rainfall across more of the year."
   },
   {
     "objectID": "index.html#overall-summary",
     "href": "index.html#overall-summary",
-    "title": "UB Weather Dashboard",
+    "title": "Hourly Temperature Comparison",
     "section": "Overall summary",
     "text": "Overall summary\nThis summary uses the same shared-date, quality-filtered hourly observations shown in the charts. The average, coldest, and hottest temperatures describe individual hourly readings; total rainfall is the sum of the available hourly precipitation measurements.\n\n\n\n\n\n\n\nTable 1: Summary of valid shared-date observations\n\n\n\n\n\n \nCoverage\nHourly observations\nAverage temperature (°F)\nColdest observation (°F)\nHottest observation (°F)\nTotal rainfall (mm)\n\n\ncity\n \n \n \n \n \n \n\n\n\n\nSarasota\nMay 21, 2019–Nov 28, 2025\n57,181\n75.2\n-77.1\n99.0\n6,862.0\n\n\nUlaanbaatar\nMay 21, 2019–Nov 28, 2025\n57,186\n35.3\n-31.4\n94.3\n1,386.9"
   },
