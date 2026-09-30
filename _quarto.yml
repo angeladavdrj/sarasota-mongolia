@@ -14,17 +14,13 @@ website:
       - href: index.qmd
         text: Dashboard
       - href: exploration.qmd
-        text: Exploration
+        text: Explore the weather data
       - href: story.qmd
-        text: Story
+        text: "Is Sarasota's winter really freezing?"
       - href: mongolia.qmd
         text: Mongolia
       - href: about.qmd
         text: About
-    right:
-      - icon: github
-        href: https://github.com/angeladavdrj/sarasota-mongolia
-        aria-label: GitHub
   page-footer:
     center: "Weather Dashboard | Created for Bayesian Data Science"
 
